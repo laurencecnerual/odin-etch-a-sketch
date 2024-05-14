@@ -13,11 +13,23 @@ for (let i = 0; i < 4; i++) {
     container.appendChild(groupings[i]);
 
     for (let j = 0; j < 4; j++) {
-        cells[j] = document.createElement("div");
-        cells[j].className = groupings[i].className + "-cell" + j;
-        cells[j].style.border = "2px solid black";
-        cells[j].style.height = cellDimension;
-        cells[j].style.width = cellDimension;
-        groupings[i].appendChild(cells[j]);
+        let k = 4 * i + j; // to keep index unique for each cell within 1D-array "cells"
+        cells[k] = document.createElement("div");
+        cells[k].className = groupings[i].className + "-cell" + j;
+        cells[k].style.border = "2px solid black";
+        cells[k].style.height = cellDimension;
+        cells[k].style.width = cellDimension;
+        groupings[i].appendChild(cells[k]);
     }
 }
+
+function fillCell(cellClass) {
+    const cell = document.querySelector("." + cellClass);
+    cell.style.backgroundColor = "gray";
+}
+
+cells.forEach((cell) => {
+    cell.addEventListener("mouseover", () => {
+      fillCell(cell.className);
+    });
+  });
