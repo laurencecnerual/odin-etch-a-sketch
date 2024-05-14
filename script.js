@@ -6,10 +6,19 @@ container.style.justifyContent = "center";
 
 const groupings = [];
 const cells = [];
-const cellGrayoutStatus = new Map(); // To track whether or not a given cell was previously grayed out
+const cellFadeoutStatus = new Map(); // To track whether or not a given cell was previously faded out
+
+const randomColorMin = 1;
+const randomColorMax = 254;
 
 setGrid(4); // Initializes the grid to 4x4 on page load
 setCellEventListeners(); // Makes the cells respond to mouse-hovering
+
+button.addEventListener("click", () => {
+    clearGrid();
+    setGrid(getUserInput());
+    setCellEventListeners();
+});
 
 function setGrid(size) {
 
@@ -39,7 +48,7 @@ function setGrid(size) {
                 cells[k].style.height = cellDimension;
                 cells[k].style.width = cellDimension;
     
-                cellGrayoutStatus.set(cells[k].className, false); // Initialize to "not previously grayed out" (since starting color is white)
+                cellFadeoutStatus.set(cells[k].className, false); // Initialize to "not previously grayed out" (since starting color is white)
     
                 groupings[i].appendChild(cells[k]);
             }
@@ -55,12 +64,12 @@ function fillCell(cellClass) {
 function fadeCell(cellClass) {
     const cell = document.querySelector("." + cellClass);
 
-    if (!cellGrayoutStatus.get(cellClass)) {
-        cell.style.backgroundColor = "gray";
-        cellGrayoutStatus.set(cellClass, true);
+    if (!cellFadeoutStatus.get(cellClass)) {
+        cell.style.backgroundColor = `rgb(${getRandomIntInclusive(randomColorMin, randomColorMax)}, ${getRandomIntInclusive(randomColorMin, randomColorMax)}, ${getRandomIntInclusive(randomColorMin, randomColorMax)})`;
+        cellFadeoutStatus.set(cellClass, true);
     } else {
         cell.style.backgroundColor = "white";
-        cellGrayoutStatus.set(cellClass, false);
+        cellFadeoutStatus.set(cellClass, false);
     }
 }
 
@@ -86,8 +95,8 @@ function clearGrid() {
     }
 }
 
-button.addEventListener("click", () => {
-    clearGrid();
-    setGrid(getUserInput());
-    setCellEventListeners();
-});
+function getRandomIntInclusive(min, max) {
+    const minCeiled = Math.ceil(min);
+    const maxFloored = Math.floor(max);
+    return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
+}
