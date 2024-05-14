@@ -25,11 +25,22 @@ for (let i = 0; i < 4; i++) {
 
 function fillCell(cellClass) {
     const cell = document.querySelector("." + cellClass);
+    cell.style.backgroundColor = "black";
+}
+
+function fadeCell(cellClass) {
+    const cell = document.querySelector("." + cellClass);
     cell.style.backgroundColor = "gray";
 }
 
 cells.forEach((cell) => {
     cell.addEventListener("mouseover", () => {
       fillCell(cell.className);
+    });
+  });
+
+  cells.forEach((cell) => {
+    cell.addEventListener("mouseout", () => {
+      fadeCell(cell.className);
     });
   });
