@@ -9,6 +9,7 @@ const cells = [];
 const cellGrayoutStatus = new Map(); // To track whether or not a given cell was previously grayed out
 
 setGrid(4); // Initializes the grid to 4x4 on page load
+setCellEventListeners(); // Makes the cells respond to mouse-hovering
 
 function setGrid(size) {
 
@@ -30,7 +31,7 @@ function setGrid(size) {
             container.appendChild(groupings[i]);
     
             for (let j = 0; j < size; j++) {
-                let k = 4 * i + j; // to keep index unique for each cell within 1D-array "cells"
+                let k = size * i + j; // to keep index unique for each cell within 1D-array "cells"
     
                 cells[k] = document.createElement("div");
                 cells[k].className = groupings[i].className + "-cell" + j;
@@ -63,20 +64,20 @@ function fadeCell(cellClass) {
     }
 }
 
-cells.forEach((cell) => {
-    cell.addEventListener("mouseover", () => {
-      fillCell(cell.className);
-    });
-});
+function setCellEventListeners () {
+    cells.forEach((cell) => {
+        cell.addEventListener("mouseover", () => {
+          fillCell(cell.className);
+        });
 
-cells.forEach((cell) => {
-    cell.addEventListener("mouseout", () => {
-      fadeCell(cell.className);
+        cell.addEventListener("mouseout", () => {
+            fadeCell(cell.className);
+          });
     });
-});
+}
 
 function getUserInput() {
-    return parseInt(prompt("Input your desired grid size as an integer.\n(Note: For number N, a grid of size N x N will be created.)"));
+    return parseInt(prompt("Input your desired grid size as a positive integer.\n(Note: For input N, a grid of size N x N will be created.)"));
 }
 
 function clearGrid() {
@@ -88,4 +89,5 @@ function clearGrid() {
 button.addEventListener("click", () => {
     clearGrid();
     setGrid(getUserInput());
+    setCellEventListeners();
 });
