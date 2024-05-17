@@ -1,15 +1,28 @@
+const body = document.querySelector("body");
+body.style.display = "flex";
+body.style.flexDirection = "column";
+body.style.gap = "8px";
+body.style.alignItems = "center";
+
 const button = document.querySelector("button");
+button.style.fontSize = "16px";
+button.style.width = "240px";
+button.style.height = "30px";
 
 const container = document.querySelector(".container");
 container.style.display = "flex";
-container.style.justifyContent = "center";
+container.style.width = "960px";
+container.style.height = "960px";
 
 const groupings = [];
 const cells = [];
 const cellFadeoutStatus = new Map(); // To track whether or not a given cell was previously faded out
 
+// For mouseout effect - Not 0 to 255 to prevent white and black
 const randomColorMin = 1;
 const randomColorMax = 254;
+
+const gridLineColor = 211; // "lightgray"
 
 setGrid(4); // Initializes the grid to 4x4 on page load
 setCellEventListeners(); // Makes the cells respond to mouse-hovering
@@ -29,13 +42,12 @@ function setGrid(size) {
     } else if (size > 100) {
         alert("Error: Input received is too large.");
     } else {
-        const cellDimension = 960/size + "px";
-
         for (let i = 0; i < size; i++) {
             groupings[i] = document.createElement("div");
             groupings[i].className = "grouping" + i;
             groupings[i].style.display = "flex";
             groupings[i].style.flexDirection = "column";
+            groupings[i].style.flexGrow = "1";
     
             container.appendChild(groupings[i]);
     
@@ -44,9 +56,8 @@ function setGrid(size) {
     
                 cells[k] = document.createElement("div");
                 cells[k].className = groupings[i].className + "-cell" + j;
-                cells[k].style.border = "2px solid black";
-                cells[k].style.height = cellDimension;
-                cells[k].style.width = cellDimension;
+                cells[k].style.border = `1px solid rgb(${gridLineColor}, ${gridLineColor}, ${gridLineColor})`;
+                cells[k].style.flexGrow = "1";
     
                 cellFadeoutStatus.set(cells[k].className, false); // Initialize to "not previously grayed out" (since starting color is white)
     
