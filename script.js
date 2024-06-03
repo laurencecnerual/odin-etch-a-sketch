@@ -11,8 +11,8 @@ button.style.height = "30px";
 
 const container = document.querySelector(".container");
 container.style.display = "flex";
-container.style.width = "960px";
-container.style.height = "960px";
+container.style.height = "90vh";
+container.style.width = container.style.height;
 
 const groupings = [];
 const cells = [];
